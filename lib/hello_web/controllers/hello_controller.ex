@@ -2,8 +2,41 @@ defmodule HelloWeb.HelloController do
   use HelloWeb, :controller
 
   def index(conn, _params) do
+
        tri_fusion([2,1,3],[])
-       json(conn, %{id: tri_fusion([2,1,3],[])})
+      #  json(conn, %{id: arrayOfArray([],2) })
+      json(conn, %{id: runSort(100)})
+  end
+
+  def runSort(tryNumber)do
+    sortAllArray(arrayOfArray([],tryNumber),[],tryNumber)
+  end
+
+  def sortAllArray(unsortedArray,sortedArray,n)do
+    cond do
+      n == 0 -> sortedArray
+      true -> n = n - 1
+              sortedArray = sortedArray ++ [tri_fusion(Enum.at(unsortedArray,n),[])]
+              sortAllArray(unsortedArray,sortedArray,n)
+    end
+  end
+
+  def arrayOfArray(array,n)do
+  cond do
+      n == 0 -> array
+      true -> n = n - 1
+              array = array ++ [randomArray([],1000)]
+              arrayOfArray(array,n)
+    end
+  end
+
+  def randomArray(array,l)do
+    cond do
+      l == 0 -> array
+      true -> l = l - 1
+              array = array ++ [Enum.random(0..100)]
+              randomArray(array,l)
+    end
   end
 
    def divise(l, acc1 \\ [], acc2 \\ []) do
